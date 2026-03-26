@@ -200,7 +200,24 @@ def output_csv(data, filename) -> None:
     # ==============================
     # YOUR CODE STARTS HERE
     # ==============================
+    sorted_location = sorted(data, key=lambda x: x[6], reverse = True)
+    with open(filename, 'w', newline = "", encoding = 'utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow([
+            "Listing Title",
+            "Listing ID",
+            "Policy Number",
+            "Host Type",
+            "Host Name",
+            "Room Type",
+            "Location Rating"
+        ])
+
+        for row in sorted_location:
+            writer.writerow(row)
+
     pass
+    #COME BACK TO THIS CODE AND TEST IT
     # ==============================
     # YOUR CODE ENDS HERE
     # ==============================
