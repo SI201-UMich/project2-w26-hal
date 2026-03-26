@@ -340,11 +340,18 @@ class TestCases(unittest.TestCase):
         html_list = ["467507", "1550913", "1944564", "4614763", "6092596"]
 
         # TODO: Call get_listing_details() on each listing id above and save results in a list.
-        
+        list_of_details = []
+        for listing_id in html_list:
+            list_of_details.append(get_listing_details(listing_id))
+
         # TODO: Spot-check a few known values by opening the corresponding listing_<id>.html files.
-        # 1) Check that listing 467507 has the correct policy number "STR-0005349".
+        # 1) Check that listing 467507 has the correct policy number "STR-0005349". 
+        self.assertEqual(list_of_details[0]["467507"]["policy_number"], "STR-0005349")
         # 2) Check that listing 1944564 has the correct host type "Superhost" and room type "Entire Room".
+        self.assertEqual(list_of_details[2]["1944564"]["host_type"], "Superhost")
+        self.assertEqual(list_of_details[2]["1944564"]["room_type"], "Entire Room")
         # 3) Check that listing 1944564 has the correct location rating 4.9.
+        self.assertEqual(list_of_details[2]["1944564"]["location_rating"], 4.9)
         pass
 
     def test_create_listing_database(self):
