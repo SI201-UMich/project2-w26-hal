@@ -41,10 +41,27 @@ def load_listing_results(html_path) -> list[tuple]:
     # ==============================
     # YOUR CODE STARTS HERE
     # ==============================
+    with open(html_path, "r", encoding="utf-8") as f:
+        soup = BeautifulSoup(f.read(), "html.parser")
+
+    results = []
+
+    for a in soup.find_all("a", href=True):
+        href = a["href"]
+        match = re.search(r"/rooms/(\d+)", href)
+
+        if match:
+            listing_id = match.group(1)
+            listing_title = a.get_text(strip=True)
+
+            if listing_title:
+                results.append((listing_title, listing_id))
+
+    return results
+
+    #print(load_listing_results("html_files/search_results.html"))
     pass
-    # ==============================
-    # YOUR CODE ENDS HERE
-    # ==============================
+
 
 
 def get_listing_details(listing_id) -> dict:
