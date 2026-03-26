@@ -110,7 +110,7 @@ def get_listing_details(listing_id) -> dict:
 
     #gets the policy number
     policy_number = "Exempt"
-    policy_match = re.search(r"(STR[-\w]+|\d{4}-\d+STR)", text)
+    policy_match = re.search(r"(STR-\d{7}|\d{4}-\d{6}STR)", text)
     if policy_match:
         policy_number = policy_match.group(1)
     elif "pending" in text.lower():
@@ -121,16 +121,23 @@ def get_listing_details(listing_id) -> dict:
 
     #gets the host name
     host_name = ""
-    host_match = re.search(r"Hosted by ([A-Za-z &]+)", text)
+    host_match = re.search(r"Hosted by (.+?)(?: Joined|$)", text)
     if host_match:
         host_name = host_match.group(1).strip()
 
     #gets the room type 
     room_type = "Entire Room"
-    if "private" in text.lower():
+    page_title = ""
+
+    if soup.title:
+        page_title = soup.title.get_text(" ", strip=True).lower()
+
+    if "private room" in page_title:
         room_type = "Private Room"
-    elif "shared" in text.lower():
+    elif "shared room" in page_title:
         room_type = "Shared Room"
+    else:
+        room_type = "Entire Room"
 
     #gets the location rating
     location_rating = 0.0
@@ -267,7 +274,7 @@ def avg_location_rating_by_room_type(data) -> dict:
 
     averages = {}
     for room_type in totals:
-        averages[room_type] = totals[room_type] / counts[room_type]
+        averages[room_type] = round(totals[room_type] / counts[room_type], 1)
     return averages
     pass
     # ==============================
@@ -292,16 +299,19 @@ def validate_policy_numbers(data) -> list[str]:
     # YOUR CODE STARTS HERE
     # ==============================
     invalid_ids = []
-    pattern = r"^20\d{2}-00\d{4}STR$"
-    pattern2 = r"^STR-000\d{4}$"
-
     for row in data:
         listing_id = row[1]
         policy_number = row[2] 
 
         if policy_number in ["Pending", "Exempt"]:
             continue
-        if not (re.match(pattern, policy_number) or re.match(pattern2, policy_number)):
+        
+        valid1 = re.fullmatch(r"^20\d{2}-00\d{4}STR$", policy_number)
+        valid2 = re.fullmatch(r"^STR-\d{7}$", policy_number) 
+
+        print(f"ID: {listing_id}, Policy: {policy_number}, valid1: {bool(valid1)}, valid2: {bool(valid2)}")
+
+        if not (valid1 or valid2):
             invalid_ids.append(listing_id)
     return invalid_ids
     pass
