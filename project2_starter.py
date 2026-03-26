@@ -281,10 +281,24 @@ def validate_policy_numbers(data) -> list[str]:
     # ==============================
     # YOUR CODE STARTS HERE
     # ==============================
+    invalid_ids = []
+    pattern = r"^20\d{2}-00\d{4}STR$"
+    pattern2 = r"^STR-000\d{4}$"
+
+    for row in data:
+        listing_id = row[1]
+        policy_number = row[2] 
+
+        if policy_number in ["Pending", "Exempt"]:
+            continue
+        if not (re.match(pattern, policy_number) or re.match(pattern2, policy_number)):
+            invalid_ids.append(listing_id)
+    return invalid_ids
     pass
     # ==============================
     # YOUR CODE ENDS HERE
-    # ==============================
+    # ============================== 
+
 
 
 # EXTRA CREDIT
@@ -316,15 +330,17 @@ class TestCases(unittest.TestCase):
         self.detailed_data = create_listing_database(self.search_results_path)
 
     def test_load_listing_results(self):
-        # TODO: Check that the number of listings extracted is 18.
+        # TODO: Check that the number of listings extracted is 18. 
+        self.assertEqual(len(self.listings), 18)
         # TODO: Check that the FIRST (title, id) tuple is  ("Loft in Mission District", "1944564").
+        self.assertEqual(self.listings[0], ("Loft in Mission District", "1944564"))
         pass
 
     def test_get_listing_details(self):
         html_list = ["467507", "1550913", "1944564", "4614763", "6092596"]
 
         # TODO: Call get_listing_details() on each listing id above and save results in a list.
-
+        
         # TODO: Spot-check a few known values by opening the corresponding listing_<id>.html files.
         # 1) Check that listing 467507 has the correct policy number "STR-0005349".
         # 2) Check that listing 1944564 has the correct host type "Superhost" and room type "Entire Room".
