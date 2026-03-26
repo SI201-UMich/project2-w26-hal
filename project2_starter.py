@@ -115,6 +115,7 @@ def get_listing_details(listing_id) -> dict:
         policy_number = policy_match.group(1)
     elif "pending" in text.lower():
         policy_number = "Pending"
+    
 
     #gets the host type
     host_type = "Superhost" if "superhost" in text.lower() else "regular"
