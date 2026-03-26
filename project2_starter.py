@@ -86,7 +86,60 @@ def get_listing_details(listing_id) -> dict:
     # TODO: Implement checkout logic following the instructions
     # ==============================
     # YOUR CODE STARTS HERE
-    # ==============================
+    # ============================== 
+    from bs4 import BeautifulSoup
+import re
+
+def get_listing_details(listing_id) -> dict:
+    file_path = f"html_files/listing_{listing_id}.html"
+    
+    with open(file_path, "r", encoding="utf-8") as f:
+        soup = BeautifulSoup(f.read(), "html.parser")
+
+    text = soup.get_text(" ", strip=True)
+
+    #gets the policy number
+    policy_number = "Exempt"
+    policy_match = re.search(r"(STR[-\w]+|\d{4}-\d+STR)", text)
+    if "pending" in text.lower():
+        policy_number = "Pending"
+    elif policy_match:
+        policy_number = policy_match.group(1)
+
+    #gets the host type
+    host_type = "Superhost" if "superhost" in text.lower() else "regular"
+
+    #gets the host name
+    host_name = ""
+    host_match = re.search(r"Hosted by ([A-Za-z &]+)", text)
+    if host_match:
+        host_name = host_match.group(1).strip()
+
+    #gets the room type 
+    room_type = "Entire Room"
+    if "private" in text.lower():
+        room_type = "Private Room"
+    elif "shared" in text.lower():
+        room_type = "Shared Room"
+
+    #gets the location rating
+    location_rating = 0.0
+    rating_match = re.search(r"Location\s*([\d.]+)", text)
+    if rating_match:
+        try:
+            location_rating = float(rating_match.group(1))
+        except:
+            location_rating = 0.0
+
+    return {
+        listing_id: {
+            "policy_number": policy_number,
+            "host_type": host_type,
+            "host_name": host_name,
+            "room_type": room_type,
+            "location_rating": location_rating
+        }
+    }
     pass
     # ==============================
     # YOUR CODE ENDS HERE
