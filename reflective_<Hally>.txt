@@ -1,0 +1,29 @@
+1. Do you think this current system provides adequate accountability around short-term 
+rentals in San Francisco? In your response, describe why you believe the system is 
+adequate or inadequate. If you believe the system is inadequate, discuss a possible 
+change in actions required to improve accountability in this system. You may refer to the 
+SWE Code of Ethics as you think through your response.  
+
+Currently, I believe the system does not adequately provide accountability around short-term rentals in San Francisco because it relies on a lot of self-reporting. In my opinion, I shouldn’t have to scrape through the data to find invalid policy numbers. The fact that hosts can theoretically type in any number they want is a bit unsettling. It makes me wonder about different codes glitching or sometimes letting an invalid policy number slip by. In the SWE Code of Ethics, the first principle is people have to take full accountability for their work. If people are able to self-report their listings entirely and then be a scam, they are violating ethical principles. What if the code crashes as well because of this? One possible solution to this could be Airbnb verifying policy numbers with the city’s database before a listing goes live. This could prevent problems on the site when people are looking for places to stay and also allow for the code to run with less possibility of errors. 
+ 
+2. As discussed in the introduction, the legality of web scraping is still uncertain in the US. 
+Skim through the Legal Issues section of Web Scraping in the US on Wikipedia and this 
+article about the legal issues with the Computer Fraud and Abuse Act, and describe at 
+least one factor you believe is important to consider when discussing the legality of web 
+scraping and why. 
+
+One factor I believe is important to consider when discussing the legality of web scraping is the idea that the public is entitled to notice of criminal laws. The article about the legal issues with the CFAA talks about how the “terms and services” on websites are often dense and no one actually reads the whole excerpt because of the length and fine print. This brings into question the security users are signing over to companies when they use different websites. With web scraping, it is hard to know when people are allowed to do it because of these terms and services. For example, if the terms and services are long on a website, if breaking those terms is considered a criminal violation, then would these people be breaking the law by web scraping. Sometimes courts have to decide if breaking these terms is considered "unauthorized access” and web scraping relies significantly on how access is interpreted. In other words, there are a lot of factors of web scraping up to interpretation that could sometimes be considered breaking the law. This creates uncertainty for the future of web scraping when discussing its legality. 
+ 
+3. Scraping public data does not always lead to positive results for society. For example, 
+look  to  Facebook–Cambridge  Analytica  data  scandal  -  Wikipedia  or  Clearview  AI  - 
+Wikipedia. Many argue that using someone’s personal data without their consent (even if 
+publicly provided) is unethical. Web scraping requires thoughtful intervention. Develop at 
+least two guidelines you think are important to consider when deciding whether to do 
+web scraping.  
+
+The first guideline I think is important when deciding to do web scraping is if the data could harm the user in any way, specifically mentally. If people unknowingly have sensitive information online, they probably don’t expect it to be used for web scraping. With that being said, if that information is spread to people, as mentioned in the articles, web scraping can lead to a loss of trust from users. There is a line that needs to be drawn with web scraping, and harming someone mentally because of sensitive information definitely can not be crossed. The second guideline that’s important to consider when web scraping is the purpose behind the web scraping. If a company is trying to expose a user, purposefully blindside, or build a brand based on private information, then web scraping should be questioned. Once again, web scraping to hold people accountable is significantly different than trying to use people’s information to try and leverage themselves. Both of these guidelines also touch on consent. Because the user can not consent to webscraping, there needs to be at least some sort of precedent set in place to remain ethical through web scraping. 
+
+
+
+ 
+ 
