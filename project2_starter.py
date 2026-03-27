@@ -307,15 +307,12 @@ def validate_policy_numbers(data) -> list[str]:
     for row in data:
         listing_id = row[1]
         policy_number = row[2] 
-        print(f"ID: {listing_id}, Policy: {repr(policy_number)}")
 
         if policy_number in ["Pending", "Exempt"]:
             continue
         
         valid1 = re.fullmatch(r"20\d{2}-0\d{5}STR", policy_number)
         valid2 = re.fullmatch(r"STR-0{3}\d{4}", policy_number) 
-
-        print(f"ID: {listing_id}, Policy: {policy_number}, valid1: {bool(valid1)}, valid2: {bool(valid2)}")
 
         if not (valid1 or valid2):
             invalid_ids.append(str(listing_id))
@@ -341,6 +338,15 @@ def google_scholar_searcher(query):
     # ==============================
     # YOUR CODE STARTS HERE
     # ==============================
+    url = f"https://scholar.google.com/scholar?q={query}"
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    titles = []
+    for result in soup.find_all("h3", class_="gs_rt"):
+        title = result.get_text(strip=True)
+        titles.append(title)
+    return titles
     pass
     # ==============================
     # YOUR CODE ENDS HERE
