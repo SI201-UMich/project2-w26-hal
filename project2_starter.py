@@ -109,12 +109,16 @@ def get_listing_details(listing_id) -> dict:
     text = soup.get_text(" ", strip=True)
 
     #gets the policy number
-    policy_number = "Exempt"
-    policy_match = re.search(r"(STR-\d{7}|\d{4}-\d{6}STR)", text)
+    policy_number = ""
+    policy_match = re.search(r"(STR-0{3}\d{4}|20\d{2}-0\d{5}STR)", text)
     if policy_match:
         policy_number = policy_match.group(1)
-    elif "pending" in text.lower():
+    elif re.search(r"\bpending\b", text, re.IGNORECASE):
         policy_number = "Pending"
+    elif re.search(r"\bexempt\b", text, re.IGNORECASE):
+        policy_number = "Exempt"
+    
+
     
 
     #gets the host type
@@ -303,17 +307,18 @@ def validate_policy_numbers(data) -> list[str]:
     for row in data:
         listing_id = row[1]
         policy_number = row[2] 
+        print(f"ID: {listing_id}, Policy: {repr(policy_number)}")
 
         if policy_number in ["Pending", "Exempt"]:
             continue
         
-        valid1 = re.fullmatch(r"^20\d{2}-00\d{4}STR$", policy_number)
-        valid2 = re.fullmatch(r"^STR-\d{7}$", policy_number) 
+        valid1 = re.fullmatch(r"20\d{2}-0\d{5}STR", policy_number)
+        valid2 = re.fullmatch(r"STR-0{3}\d{4}", policy_number) 
 
         print(f"ID: {listing_id}, Policy: {policy_number}, valid1: {bool(valid1)}, valid2: {bool(valid2)}")
 
         if not (valid1 or valid2):
-            invalid_ids.append(listing_id)
+            invalid_ids.append(str(listing_id))
     return invalid_ids
     pass
     # ==============================
